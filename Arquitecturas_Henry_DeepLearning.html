@@ -1,0 +1,1373 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Arquitecturas de prueba para imágenes renales &#8212; Segmentacion1 deep learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Arquitecturas_Henry_DeepLearning';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="EDA: exploración y procesamiento de imágenes" href="eda_parcial1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo_uninorte.png" class="logo__image only-light" alt="Segmentacion1 deep learning - Home"/>
+    <script>document.write(`<img src="_static/logo_uninorte.png" class="logo__image only-dark" alt="Segmentacion1 deep learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Segtmentación de tejidos en biopsia renal medinate arquitecturas de redes neuronales convolucionales
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="eda_parcial1.html"><strong>EDA: exploración y procesamiento de imágenes</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Arquitecturas de prueba para imágenes renales</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FArquitecturas_Henry_DeepLearning.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Arquitecturas_Henry_DeepLearning.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Arquitecturas de prueba para imágenes renales</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias-paquetes-y-gpu-necesarios">Librerías, paquetes y GPU necesarios</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-de-gpu-s">Verificación de GPU’s</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imagenes-y-mascaras-a-usar">Imágenes y máscaras a usar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion-de-arquitecturas-neuronales">Implementación de arquitecturas neuronales</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segnet-basado-en-autoecoders">SegNet - Basado en autoecoders</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-de-segnet">Arquitectura de SegNet</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocesamiento-de-las-imagenes">Preprocesamiento de las imágenes</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-la-arquitectura">Construcción de la arquitectura</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pspnet-piramides-de-pooling">PSPNet - Pirámides de Pooling</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="arquitecturas-de-prueba-para-imagenes-renales">
+<h1>Arquitecturas de prueba para imágenes renales<a class="headerlink" href="#arquitecturas-de-prueba-para-imagenes-renales" title="Link to this heading">#</a></h1>
+<p>Se implementarán las arquitecturas para las redes neuronales convolucionales orientadas al análisis de imágenes de biopsias renales. Se presenta el uso de las siguientes arquitecturas subrayadas:</p>
+<ul class="simple">
+<li><p>U-Net</p></li>
+<li><p>V-Net (Variante de U-Net con convoluciones 3D)</p></li>
+<li><p><em><strong>SegNet (Basado en autoencoders)</strong></em></p></li>
+<li><p>DeepLabV3+ (Para segmentación de alta precisión)</p></li>
+<li><p>Attention U-Net (Mejora la U-Net con atención)</p></li>
+<li><p>Mask R-CNN (Segmentación basada en detección)</p></li>
+<li><p>ResUNet (Combinación de U-Net y ResNet)</p></li>
+<li><p><em><strong>PSPNet (Utiliza pirámides de pooling)</strong></em></p></li>
+<li><p>FCN (Fully Convolutional Networks)</p></li>
+<li><p><em><strong>Swin UNet (Basado en Transformers)</strong></em></p></li>
+</ul>
+<div class="admonition-redes-neuronales-convolucionales-cnn admonition">
+<p class="admonition-title">Redes Neuronales Convolucionales (CNN)</p>
+<p>Son un tipo de red neuronal diseñada para procesar datos con una estructura de tipo grid, como imágenes, mediante la aplicación de filtros convolucionales que detectan patrones y características en diferentes niveles de abstracción.</p>
+</div>
+<section id="librerias-paquetes-y-gpu-necesarios">
+<h2>Librerías, paquetes y GPU necesarios<a class="headerlink" href="#librerias-paquetes-y-gpu-necesarios" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install opencv-python</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.preprocessing.image</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageDataGenerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_img</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">BatchNormalization</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">MaxPool2D</span><span class="p">,</span> <span class="n">Flatten</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.layers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">MaxPooling2D</span><span class="p">,</span> <span class="n">UpSampling2D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.losses</span><span class="w"> </span><span class="kn">import</span> <span class="n">CategoricalCrossentropy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_model</span><span class="p">,</span> <span class="n">to_categorical</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">jaccard_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">balanced_accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow.keras.optimizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span><span class="p">,</span> <span class="n">RMSprop</span><span class="p">,</span> <span class="n">SGD</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelCheckpoint</span><span class="p">,</span><span class="n">EarlyStopping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">regularizers</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="verificacion-de-gpu-s">
+<h3>Verificación de GPU’s<a class="headerlink" href="#verificacion-de-gpu-s" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">devices</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available devices:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">gpus</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">gpus</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TensorFlow is using GPU.&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">gpu</span> <span class="ow">in</span> <span class="n">gpus</span><span class="p">:</span>
+        <span class="n">gpu_details</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">get_device_details</span><span class="p">(</span><span class="n">gpu</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU details: </span><span class="si">{</span><span class="n">gpu_details</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TensorFlow is not using GPU.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Available devices:
+PhysicalDevice(name=&#39;/physical_device:CPU:0&#39;, device_type=&#39;CPU&#39;)
+PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)
+TensorFlow is using GPU.
+GPU details: {&#39;device_name&#39;: &#39;NVIDIA GeForce RTX 2050&#39;, &#39;compute_capability&#39;: (8, 6)}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GPUs detectadas:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dispositivos disponibles:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GPU usada por defecto:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">(</span><span class="s1">&#39;GPU&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPUs detectadas: 1
+Dispositivos disponibles:
+[PhysicalDevice(name=&#39;/physical_device:CPU:0&#39;, device_type=&#39;CPU&#39;), PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)]
+GPU usada por defecto:
+[PhysicalDevice(name=&#39;/physical_device:GPU:0&#39;, device_type=&#39;GPU&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_build_info</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OrderedDict([(&#39;cpu_compiler&#39;, &#39;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/HostX64/x64/cl.exe&#39;), (&#39;cuda_compute_capabilities&#39;, [&#39;sm_35&#39;, &#39;sm_50&#39;, &#39;sm_60&#39;, &#39;sm_70&#39;, &#39;sm_75&#39;, &#39;compute_80&#39;]), (&#39;cuda_version&#39;, &#39;64_112&#39;), (&#39;cudart_dll_name&#39;, &#39;cudart64_112.dll&#39;), (&#39;cudnn_dll_name&#39;, &#39;cudnn64_8.dll&#39;), (&#39;cudnn_version&#39;, &#39;64_8&#39;), (&#39;is_cuda_build&#39;, True), (&#39;is_rocm_build&#39;, False), (&#39;is_tensorrt_build&#39;, False), (&#39;msvcp_dll_names&#39;, &#39;msvcp140.dll,msvcp140_1.dll&#39;), (&#39;nvcuda_dll_name&#39;, &#39;nvcuda.dll&#39;)])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="imagenes-y-mascaras-a-usar">
+<h2>Imágenes y máscaras a usar<a class="headerlink" href="#imagenes-y-mascaras-a-usar" title="Link to this heading">#</a></h2>
+<p>Se cargan todas la imágenes en esta sección, sin embargo para probar la arquitectura se seleccionarán posteriormente solo 5 imágenes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_path1</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\henry\Documents\jbook\parcial1_dl\datos\train_filter&quot;</span>
+<span class="n">data_path2</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;C:\Users\henry\Documents\jbook\parcial1_dl\datos\mascaras_guardadas&quot;</span>
+<span class="n">image_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path1</span><span class="p">,</span> <span class="s1">&#39;train_filter&#39;</span><span class="p">)</span>
+<span class="n">mask_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path2</span><span class="p">,</span> <span class="s1">&#39;mascaras_guardadas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Obtenemos la lista de archivos de imagen y máscara</span>
+<span class="n">image_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">image_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">)])</span>
+<span class="n">mask_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Función para cargar imágenes y máscaras</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cargar_imagenes_y_mascaras</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">mask_path</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">mask_path</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">mask</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargar y visualizar una imagen de prueba</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Índice de la imagen a visualizar</span>
+<span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">image_files</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+<span class="n">mask_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">,</span> <span class="n">mask_files</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+
+<span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cargar_imagenes_y_mascaras</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">mask_path</span><span class="p">)</span>
+
+<span class="c1"># Mostrar la imagen y su máscara</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Imagen&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Máscara&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/35868c46c99b70d60b9fc8aaa693efebc18e492fe7afbf9d6a36f549b4d6b9fe.png" src="_images/35868c46c99b70d60b9fc8aaa693efebc18e492fe7afbf9d6a36f549b4d6b9fe.png" />
+</div>
+</div>
+</section>
+<section id="implementacion-de-arquitecturas-neuronales">
+<h2>Implementación de arquitecturas neuronales<a class="headerlink" href="#implementacion-de-arquitecturas-neuronales" title="Link to this heading">#</a></h2>
+<section id="segnet-basado-en-autoecoders">
+<h3>SegNet - Basado en autoecoders<a class="headerlink" href="#segnet-basado-en-autoecoders" title="Link to this heading">#</a></h3>
+<section id="arquitectura-de-segnet">
+<h4>Arquitectura de SegNet<a class="headerlink" href="#arquitectura-de-segnet" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Encoder</strong>: Basado en VGG16, extrae características con capas convolucionales y de pooling.</p></li>
+<li><p><strong>Decoder</strong>: Reconstruye la imagen de segmentación utilizando unpooling en lugar de upsampling tradicional, lo que mejora la preservación de bordes y detalles finos.</p></li>
+<li><p><strong>Softmax</strong>: Produce un mapa de segmentación con probabilidades para cada clase.</p></li>
+</ul>
+<p><img alt="Descripción de la aequitectura SegNet" src="_images/SegNet_Architecture_Ilustration.png" /></p>
+<p>Kanery le agregas la fuente</p>
+</section>
+<section id="preprocesamiento-de-las-imagenes">
+<h4>Preprocesamiento de las imágenes<a class="headerlink" href="#preprocesamiento-de-las-imagenes" title="Link to this heading">#</a></h4>
+<p>Se seleccionan solo 5 de las imágenes y máscaras.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Obtener lista de archivos de imágenes y máscaras (solo 5 imágenes)</span>
+<span class="n">image_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">image_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">)])[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">mask_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">)])[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Función para cargar imágenes y máscaras</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cargar_imagenes_y_mascaras</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">mask_path</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>  <span class="c1"># Convertir a RGB</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">mask_path</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">)</span>  <span class="c1"># Escala de grises</span>
+    <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">mask</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">preprocesar_imagen</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="o">/</span> <span class="mf">255.0</span>  <span class="c1"># Normalizar la imagen RGB</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">/</span> <span class="mf">255.0</span>  <span class="c1"># Normalizar la máscara - si es binaria queda entre [0 y 1]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Añadir canal de profundidad</span>
+    <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">mask</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Observamos las imágenes y sus dimensiones.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dimensiones de la imagen:&quot;</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensiones de la imagen: (512, 512, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">image_files</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">mask_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">,</span> <span class="n">mask_files</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    
+    <span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">cargar_imagenes_y_mascaras</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">mask_path</span><span class="p">)</span>
+    <span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">preprocesar_imagen</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+    
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Imagen </span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Máscara </span><span class="si">{</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5f7ebe25b126d418f7b83c8807d8df058efaf17c380dd10536cd6f3c7e16b171.png" src="_images/5f7ebe25b126d418f7b83c8807d8df058efaf17c380dd10536cd6f3c7e16b171.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="construccion-de-la-arquitectura">
+<h3>Construcción de la arquitectura<a class="headerlink" href="#construccion-de-la-arquitectura" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_segnet</span><span class="p">(</span><span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">num_classes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="n">input_shape</span><span class="p">)</span>
+    
+    <span class="c1"># Encoder</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">strides</span> <span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span> <span class="s1">&#39;pool1&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">strides</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;pool2&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;pool3&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="c1">#Decoder</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">UpSampling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">UpSampling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">UpSampling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span> <span class="o">=</span> <span class="s1">&#39;softmax&#39;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constriur el modelo</span>
+<span class="n">segnet_model</span> <span class="o">=</span> <span class="n">build_segnet</span><span class="p">()</span>
+<span class="n">segnet_model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model: &quot;model&quot;
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_2 (InputLayer)        [(None, 512, 512, 3)]     0         
+                                                                 
+ conv2d_2 (Conv2D)           (None, 512, 512, 64)      1792      
+                                                                 
+ batch_normalization_2 (Batc  (None, 512, 512, 64)     256       
+ hNormalization)                                                 
+                                                                 
+ activation_2 (Activation)   (None, 512, 512, 64)      0         
+                                                                 
+ pool1 (MaxPooling2D)        (None, 256, 256, 64)      0         
+                                                                 
+ conv2d_3 (Conv2D)           (None, 256, 256, 128)     73856     
+                                                                 
+ batch_normalization_3 (Batc  (None, 256, 256, 128)    512       
+ hNormalization)                                                 
+                                                                 
+ activation_3 (Activation)   (None, 256, 256, 128)     0         
+                                                                 
+ pool2 (MaxPooling2D)        (None, 128, 128, 128)     0         
+                                                                 
+ conv2d_4 (Conv2D)           (None, 128, 128, 256)     295168    
+                                                                 
+ batch_normalization_4 (Batc  (None, 128, 128, 256)    1024      
+ hNormalization)                                                 
+                                                                 
+ activation_4 (Activation)   (None, 128, 128, 256)     0         
+                                                                 
+ pool3 (MaxPooling2D)        (None, 64, 64, 256)       0         
+                                                                 
+ up_sampling2d (UpSampling2D  (None, 128, 128, 256)    0         
+ )                                                               
+                                                                 
+ conv2d_5 (Conv2D)           (None, 128, 128, 256)     590080    
+                                                                 
+ batch_normalization_5 (Batc  (None, 128, 128, 256)    1024      
+ hNormalization)                                                 
+                                                                 
+ activation_5 (Activation)   (None, 128, 128, 256)     0         
+                                                                 
+ up_sampling2d_1 (UpSampling  (None, 256, 256, 256)    0         
+ 2D)                                                             
+                                                                 
+ conv2d_6 (Conv2D)           (None, 256, 256, 128)     295040    
+                                                                 
+ batch_normalization_6 (Batc  (None, 256, 256, 128)    512       
+ hNormalization)                                                 
+                                                                 
+ activation_6 (Activation)   (None, 256, 256, 128)     0         
+                                                                 
+ up_sampling2d_2 (UpSampling  (None, 512, 512, 128)    0         
+ 2D)                                                             
+                                                                 
+ conv2d_7 (Conv2D)           (None, 512, 512, 64)      73792     
+                                                                 
+ batch_normalization_7 (Batc  (None, 512, 512, 64)     256       
+ hNormalization)                                                 
+                                                                 
+ activation_7 (Activation)   (None, 512, 512, 64)      0         
+                                                                 
+ conv2d_8 (Conv2D)           (None, 512, 512, 2)       130       
+                                                                 
+=================================================================
+Total params: 1,333,442
+Trainable params: 1,331,650
+Non-trainable params: 1,792
+_________________________________________________________________
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot model structure</span>
+<span class="n">plot_model</span><span class="p">(</span><span class="n">segnet_model</span><span class="p">,</span> <span class="n">to_file</span><span class="o">=</span><span class="s1">&#39;model_cnn.png&#39;</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ejecutar el modelo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cargar_datos</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">mask_dir</span><span class="p">,</span> <span class="n">image_files</span><span class="p">,</span> <span class="n">mask_files</span><span class="p">,</span> <span class="n">target_size</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">images</span><span class="p">,</span> <span class="n">masks</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">img_name</span><span class="p">,</span> <span class="n">mask_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">image_files</span><span class="p">,</span> <span class="n">mask_files</span><span class="p">):</span>
+        <span class="c1"># Cargar imagen</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">img_name</span><span class="p">))</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">target_size</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>  <span class="c1"># Normalizar</span>
+        <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+        <span class="c1"># Cargar máscara en escala de grises</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">,</span> <span class="n">mask_name</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">target_size</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_NEAREST</span><span class="p">)</span>  <span class="c1"># Mantener etiquetas discretas</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">/</span> <span class="mf">255.0</span>  <span class="c1"># Normalizar a [0,1]</span>
+
+        <span class="c1"># One-hot encoding si hay más de 2 clases</span>
+        <span class="k">if</span> <span class="n">num_classes</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">num_classes</span><span class="p">)</span>
+
+        <span class="n">masks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">images</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">masks</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cargar datos de entrenamiento y validación</span>
+<span class="n">images</span><span class="p">,</span> <span class="n">masks</span> <span class="o">=</span> <span class="n">cargar_datos</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span> <span class="n">mask_dir</span><span class="p">,</span> <span class="n">image_files</span><span class="p">,</span> <span class="n">mask_files</span><span class="p">)</span>
+<span class="c1"># Convertir máscaras a formato categórico si hay más de 2 clases</span>
+<span class="n">masks</span> <span class="o">=</span> <span class="n">to_categorical</span><span class="p">(</span><span class="n">masks</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># División en entrenamiento y validación</span>
+<span class="n">train_images</span><span class="p">,</span> <span class="n">val_images</span><span class="p">,</span> <span class="n">train_masks</span><span class="p">,</span> <span class="n">val_masks</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">masks</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construcción y compilación del modelo</span>
+<span class="n">segnet_model</span> <span class="o">=</span> <span class="n">build_segnet</span><span class="p">()</span>
+<span class="n">segnet_model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">),</span> <span class="n">loss</span><span class="o">=</span><span class="n">CategoricalCrossentropy</span><span class="p">(),</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizar estructura del modelo</span>
+<span class="n">plot_model</span><span class="p">(</span><span class="n">segnet_model</span><span class="p">,</span> <span class="n">to_file</span><span class="o">=</span><span class="s1">&#39;model_cnn.png&#39;</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_layer_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Entrenamiento del modelo</span>
+
+<span class="n">early_stopping</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">restore_best_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">segnet_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span> <span class="n">train_masks</span><span class="p">,</span> 
+                           <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_images</span><span class="p">,</span> <span class="n">val_masks</span><span class="p">),</span> 
+                           <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+                           <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">early_stopping</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/50
+4/4 - 89s - loss: 0.4603 - accuracy: 0.8245 - val_loss: 0.6782 - val_accuracy: 1.0000 - 89s/epoch - 22s/step
+Epoch 2/50
+4/4 - 1s - loss: 0.3870 - accuracy: 0.9137 - val_loss: 0.6677 - val_accuracy: 1.0000 - 1s/epoch - 262ms/step
+Epoch 3/50
+4/4 - 1s - loss: 0.3338 - accuracy: 0.9706 - val_loss: 0.6459 - val_accuracy: 1.0000 - 1s/epoch - 260ms/step
+Epoch 4/50
+4/4 - 1s - loss: 0.2847 - accuracy: 0.9897 - val_loss: 0.6275 - val_accuracy: 1.0000 - 1s/epoch - 265ms/step
+Epoch 5/50
+4/4 - 1s - loss: 0.2383 - accuracy: 0.9977 - val_loss: 0.6150 - val_accuracy: 1.0000 - 1s/epoch - 256ms/step
+Epoch 6/50
+4/4 - 1s - loss: 0.2002 - accuracy: 0.9985 - val_loss: 0.6026 - val_accuracy: 1.0000 - 1s/epoch - 258ms/step
+Epoch 7/50
+4/4 - 1s - loss: 0.1692 - accuracy: 0.9994 - val_loss: 0.5819 - val_accuracy: 1.0000 - 1s/epoch - 287ms/step
+Epoch 8/50
+4/4 - 1s - loss: 0.1463 - accuracy: 0.9997 - val_loss: 0.5603 - val_accuracy: 1.0000 - 1s/epoch - 281ms/step
+Epoch 9/50
+4/4 - 1s - loss: 0.1284 - accuracy: 0.9995 - val_loss: 0.5338 - val_accuracy: 1.0000 - 1s/epoch - 261ms/step
+Epoch 10/50
+4/4 - 1s - loss: 0.1166 - accuracy: 0.9999 - val_loss: 0.5107 - val_accuracy: 1.0000 - 1s/epoch - 258ms/step
+Epoch 11/50
+4/4 - 1s - loss: 0.1071 - accuracy: 0.9998 - val_loss: 0.4850 - val_accuracy: 1.0000 - 1s/epoch - 260ms/step
+Epoch 12/50
+4/4 - 1s - loss: 0.1002 - accuracy: 1.0000 - val_loss: 0.4605 - val_accuracy: 1.0000 - 1s/epoch - 257ms/step
+Epoch 13/50
+4/4 - 1s - loss: 0.0944 - accuracy: 0.9999 - val_loss: 0.4370 - val_accuracy: 1.0000 - 1s/epoch - 263ms/step
+Epoch 14/50
+4/4 - 1s - loss: 0.0901 - accuracy: 1.0000 - val_loss: 0.4155 - val_accuracy: 1.0000 - 1s/epoch - 261ms/step
+Epoch 15/50
+4/4 - 1s - loss: 0.0861 - accuracy: 0.9999 - val_loss: 0.3933 - val_accuracy: 1.0000 - 1s/epoch - 268ms/step
+Epoch 16/50
+4/4 - 1s - loss: 0.0827 - accuracy: 1.0000 - val_loss: 0.3712 - val_accuracy: 1.0000 - 1s/epoch - 258ms/step
+Epoch 17/50
+4/4 - 1s - loss: 0.0797 - accuracy: 1.0000 - val_loss: 0.3486 - val_accuracy: 1.0000 - 1s/epoch - 260ms/step
+Epoch 18/50
+4/4 - 1s - loss: 0.0772 - accuracy: 1.0000 - val_loss: 0.3299 - val_accuracy: 1.0000 - 1s/epoch - 262ms/step
+Epoch 19/50
+4/4 - 1s - loss: 0.0748 - accuracy: 1.0000 - val_loss: 0.3111 - val_accuracy: 1.0000 - 1s/epoch - 261ms/step
+Epoch 20/50
+4/4 - 1s - loss: 0.0728 - accuracy: 1.0000 - val_loss: 0.2932 - val_accuracy: 1.0000 - 1s/epoch - 257ms/step
+Epoch 21/50
+4/4 - 1s - loss: 0.0708 - accuracy: 1.0000 - val_loss: 0.2754 - val_accuracy: 1.0000 - 1s/epoch - 261ms/step
+Epoch 22/50
+4/4 - 1s - loss: 0.0691 - accuracy: 1.0000 - val_loss: 0.2615 - val_accuracy: 1.0000 - 1s/epoch - 256ms/step
+Epoch 23/50
+4/4 - 1s - loss: 0.0675 - accuracy: 1.0000 - val_loss: 0.2484 - val_accuracy: 1.0000 - 1s/epoch - 271ms/step
+Epoch 24/50
+4/4 - 1s - loss: 0.0660 - accuracy: 1.0000 - val_loss: 0.2356 - val_accuracy: 1.0000 - 1s/epoch - 257ms/step
+Epoch 25/50
+4/4 - 1s - loss: 0.0646 - accuracy: 1.0000 - val_loss: 0.2230 - val_accuracy: 1.0000 - 1s/epoch - 255ms/step
+Epoch 26/50
+4/4 - 1s - loss: 0.0634 - accuracy: 1.0000 - val_loss: 0.2129 - val_accuracy: 1.0000 - 1s/epoch - 255ms/step
+Epoch 27/50
+4/4 - 1s - loss: 0.0621 - accuracy: 1.0000 - val_loss: 0.2022 - val_accuracy: 1.0000 - 1s/epoch - 254ms/step
+Epoch 28/50
+4/4 - 1s - loss: 0.0610 - accuracy: 1.0000 - val_loss: 0.1923 - val_accuracy: 1.0000 - 1s/epoch - 256ms/step
+Epoch 29/50
+4/4 - 1s - loss: 0.0599 - accuracy: 1.0000 - val_loss: 0.1826 - val_accuracy: 1.0000 - 1s/epoch - 259ms/step
+Epoch 30/50
+4/4 - 1s - loss: 0.0589 - accuracy: 1.0000 - val_loss: 0.1740 - val_accuracy: 1.0000 - 1s/epoch - 256ms/step
+Epoch 31/50
+4/4 - 1s - loss: 0.0579 - accuracy: 1.0000 - val_loss: 0.1670 - val_accuracy: 1.0000 - 1s/epoch - 254ms/step
+Epoch 32/50
+4/4 - 1s - loss: 0.0570 - accuracy: 1.0000 - val_loss: 0.1592 - val_accuracy: 1.0000 - 1s/epoch - 254ms/step
+Epoch 33/50
+4/4 - 1s - loss: 0.0561 - accuracy: 1.0000 - val_loss: 0.1516 - val_accuracy: 1.0000 - 1s/epoch - 256ms/step
+Epoch 34/50
+4/4 - 1s - loss: 0.0552 - accuracy: 1.0000 - val_loss: 0.1446 - val_accuracy: 1.0000 - 1s/epoch - 261ms/step
+Epoch 35/50
+4/4 - 1s - loss: 0.0544 - accuracy: 1.0000 - val_loss: 0.1383 - val_accuracy: 1.0000 - 1s/epoch - 258ms/step
+Epoch 36/50
+4/4 - 1s - loss: 0.0536 - accuracy: 1.0000 - val_loss: 0.1329 - val_accuracy: 1.0000 - 1s/epoch - 254ms/step
+Epoch 37/50
+4/4 - 1s - loss: 0.0528 - accuracy: 1.0000 - val_loss: 0.1271 - val_accuracy: 1.0000 - 1s/epoch - 263ms/step
+Epoch 38/50
+4/4 - 1s - loss: 0.0521 - accuracy: 1.0000 - val_loss: 0.1215 - val_accuracy: 1.0000 - 1s/epoch - 254ms/step
+Epoch 39/50
+4/4 - 1s - loss: 0.0514 - accuracy: 1.0000 - val_loss: 0.1165 - val_accuracy: 1.0000 - 1s/epoch - 255ms/step
+Epoch 40/50
+4/4 - 1s - loss: 0.0507 - accuracy: 1.0000 - val_loss: 0.1121 - val_accuracy: 1.0000 - 1s/epoch - 269ms/step
+Epoch 41/50
+4/4 - 1s - loss: 0.0500 - accuracy: 1.0000 - val_loss: 0.1083 - val_accuracy: 1.0000 - 1s/epoch - 255ms/step
+Epoch 42/50
+4/4 - 1s - loss: 0.0494 - accuracy: 1.0000 - val_loss: 0.1043 - val_accuracy: 1.0000 - 1s/epoch - 252ms/step
+Epoch 43/50
+4/4 - 1s - loss: 0.0487 - accuracy: 1.0000 - val_loss: 0.0999 - val_accuracy: 1.0000 - 1s/epoch - 252ms/step
+Epoch 44/50
+4/4 - 1s - loss: 0.0481 - accuracy: 1.0000 - val_loss: 0.0966 - val_accuracy: 1.0000 - 1s/epoch - 252ms/step
+Epoch 45/50
+4/4 - 1s - loss: 0.0475 - accuracy: 1.0000 - val_loss: 0.0929 - val_accuracy: 1.0000 - 1s/epoch - 252ms/step
+Epoch 46/50
+4/4 - 1s - loss: 0.0469 - accuracy: 1.0000 - val_loss: 0.0902 - val_accuracy: 1.0000 - 1s/epoch - 251ms/step
+Epoch 47/50
+4/4 - 1s - loss: 0.0464 - accuracy: 1.0000 - val_loss: 0.0865 - val_accuracy: 1.0000 - 1s/epoch - 253ms/step
+Epoch 48/50
+4/4 - 1s - loss: 0.0458 - accuracy: 1.0000 - val_loss: 0.0837 - val_accuracy: 1.0000 - 1s/epoch - 252ms/step
+Epoch 49/50
+4/4 - 1s - loss: 0.0453 - accuracy: 1.0000 - val_loss: 0.0808 - val_accuracy: 1.0000 - 1s/epoch - 252ms/step
+Epoch 50/50
+4/4 - 1s - loss: 0.0447 - accuracy: 1.0000 - val_loss: 0.0784 - val_accuracy: 1.0000 - 1s/epoch - 253ms/step
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predicciones</span>
+<span class="n">val_preds</span> <span class="o">=</span> <span class="n">segnet_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">val_images</span><span class="p">)</span>
+<span class="n">val_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">val_preds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">val_masks_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">val_masks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - 0s 213ms/step
+</pre></div>
+</div>
+</div>
+</div>
+<p>Métricas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Kanery esta no la uses</span>
+<span class="c1"># # Calcular métricas de segmentación</span>
+<span class="n">dice</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_preds</span> <span class="o">*</span> <span class="n">val_masks_flat</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_preds</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-7</span><span class="p">)</span>
+<span class="n">iou</span> <span class="o">=</span> <span class="n">jaccard_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+<span class="n">recall</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># usa esta y la de abajo</span>
+<span class="c1"># Calcular métricas</span>
+<span class="n">dice</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_preds</span> <span class="o">*</span> <span class="n">val_masks_flat</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_preds</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-7</span><span class="p">)</span>
+<span class="n">iou</span> <span class="o">=</span> <span class="n">jaccard_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+<span class="n">recall</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+<span class="n">auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+<span class="n">balanced_acc</span> <span class="o">=</span> <span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">val_masks_flat</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">val_preds</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Función de Hausdorff Distance</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hausdorff_distance</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="n">pred_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+    <span class="n">mask_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">mask_points</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">dist1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pred_point</span> <span class="o">-</span> <span class="n">mask_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">pred_point</span> <span class="ow">in</span> <span class="n">pred_points</span><span class="p">])</span>
+    <span class="n">dist2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">mask_point</span> <span class="o">-</span> <span class="n">pred_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">mask_point</span> <span class="ow">in</span> <span class="n">mask_points</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">dist1</span><span class="p">,</span> <span class="n">dist2</span><span class="p">)</span>
+
+<span class="n">hausdorff</span> <span class="o">=</span> <span class="n">hausdorff_distance</span><span class="p">(</span><span class="n">val_preds</span><span class="p">,</span> <span class="n">val_masks_flat</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tabla resumen</span>
+<span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Model&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SegNet&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Dice Coefficient&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">dice</span><span class="p">],</span>
+    <span class="s2">&quot;IoU&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">iou</span><span class="p">],</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">precision</span><span class="p">],</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">recall</span><span class="p">],</span>
+    <span class="s2">&quot;AUC&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">auc</span><span class="p">],</span>
+    <span class="s2">&quot;Hausdorff Distance&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">hausdorff</span><span class="p">],</span>
+    <span class="s2">&quot;Balanced Accuracy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">balanced_acc</span><span class="p">]</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">metrics_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    Model  Dice Coefficient  IoU  Precision  Recall  AUC  Hausdorff Distance  \
+0  SegNet               0.0  1.0        1.0     1.0  NaN                 NaN   
+
+   Balanced Accuracy  
+0                1.0  
+</pre></div>
+</div>
+</div>
+</div>
+<p>mas imagenes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">image_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">)])[:</span><span class="mi">50</span><span class="p">]</span>
+<span class="n">mask_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mask_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">)])[:</span><span class="mi">50</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">early_stopping</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">restore_best_weights</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">history</span> <span class="o">=</span> <span class="n">segnet_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span> <span class="n">train_masks</span><span class="p">,</span> 
+                           <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">val_images</span><span class="p">,</span> <span class="n">val_masks</span><span class="p">),</span> 
+                           <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+                           <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">early_stopping</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/50
+40/40 - 11s - loss: 0.2952 - accuracy: 0.9559 - val_loss: 0.4571 - val_accuracy: 1.0000 - 11s/epoch - 282ms/step
+Epoch 2/50
+40/40 - 10s - loss: 0.1235 - accuracy: 0.9999 - val_loss: 0.2324 - val_accuracy: 1.0000 - 10s/epoch - 245ms/step
+Epoch 3/50
+40/40 - 10s - loss: 0.0667 - accuracy: 1.0000 - val_loss: 0.1486 - val_accuracy: 1.0000 - 10s/epoch - 250ms/step
+Epoch 4/50
+40/40 - 10s - loss: 0.0507 - accuracy: 1.0000 - val_loss: 0.1072 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 5/50
+40/40 - 10s - loss: 0.0431 - accuracy: 1.0000 - val_loss: 0.0858 - val_accuracy: 1.0000 - 10s/epoch - 247ms/step
+Epoch 6/50
+40/40 - 10s - loss: 0.0378 - accuracy: 1.0000 - val_loss: 0.0653 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 7/50
+40/40 - 10s - loss: 0.0340 - accuracy: 1.0000 - val_loss: 0.0549 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 8/50
+40/40 - 10s - loss: 0.0308 - accuracy: 1.0000 - val_loss: 0.0470 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 9/50
+40/40 - 10s - loss: 0.0280 - accuracy: 1.0000 - val_loss: 0.0373 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 10/50
+40/40 - 10s - loss: 0.0256 - accuracy: 1.0000 - val_loss: 0.0303 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 11/50
+40/40 - 10s - loss: 0.0234 - accuracy: 1.0000 - val_loss: 0.0244 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 12/50
+40/40 - 10s - loss: 0.0215 - accuracy: 1.0000 - val_loss: 0.0228 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 13/50
+40/40 - 10s - loss: 0.0198 - accuracy: 1.0000 - val_loss: 0.0204 - val_accuracy: 1.0000 - 10s/epoch - 246ms/step
+Epoch 14/50
+40/40 - 10s - loss: 0.0182 - accuracy: 1.0000 - val_loss: 0.0190 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 15/50
+40/40 - 10s - loss: 0.0169 - accuracy: 1.0000 - val_loss: 0.0169 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 16/50
+40/40 - 10s - loss: 0.0157 - accuracy: 1.0000 - val_loss: 0.0159 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 17/50
+40/40 - 10s - loss: 0.0146 - accuracy: 1.0000 - val_loss: 0.0148 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 18/50
+40/40 - 10s - loss: 0.0136 - accuracy: 1.0000 - val_loss: 0.0136 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 19/50
+40/40 - 10s - loss: 0.0127 - accuracy: 1.0000 - val_loss: 0.0127 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 20/50
+40/40 - 10s - loss: 0.0119 - accuracy: 1.0000 - val_loss: 0.0117 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 21/50
+40/40 - 10s - loss: 0.0111 - accuracy: 1.0000 - val_loss: 0.0112 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 22/50
+40/40 - 10s - loss: 0.0104 - accuracy: 1.0000 - val_loss: 0.0103 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 23/50
+40/40 - 10s - loss: 0.0098 - accuracy: 1.0000 - val_loss: 0.0099 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 24/50
+40/40 - 10s - loss: 0.0093 - accuracy: 1.0000 - val_loss: 0.0092 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 25/50
+40/40 - 10s - loss: 0.0087 - accuracy: 1.0000 - val_loss: 0.0084 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 26/50
+40/40 - 10s - loss: 0.0083 - accuracy: 1.0000 - val_loss: 0.0079 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 27/50
+40/40 - 10s - loss: 0.0078 - accuracy: 1.0000 - val_loss: 0.0078 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 28/50
+40/40 - 10s - loss: 0.0074 - accuracy: 1.0000 - val_loss: 0.0070 - val_accuracy: 1.0000 - 10s/epoch - 245ms/step
+Epoch 29/50
+40/40 - 10s - loss: 0.0070 - accuracy: 1.0000 - val_loss: 0.0069 - val_accuracy: 1.0000 - 10s/epoch - 250ms/step
+Epoch 30/50
+40/40 - 10s - loss: 0.0067 - accuracy: 1.0000 - val_loss: 0.0068 - val_accuracy: 1.0000 - 10s/epoch - 246ms/step
+Epoch 31/50
+40/40 - 10s - loss: 0.0063 - accuracy: 1.0000 - val_loss: 0.0063 - val_accuracy: 1.0000 - 10s/epoch - 245ms/step
+Epoch 32/50
+40/40 - 10s - loss: 0.0060 - accuracy: 1.0000 - val_loss: 0.0062 - val_accuracy: 1.0000 - 10s/epoch - 245ms/step
+Epoch 33/50
+40/40 - 10s - loss: 0.0057 - accuracy: 1.0000 - val_loss: 0.0057 - val_accuracy: 1.0000 - 10s/epoch - 246ms/step
+Epoch 34/50
+40/40 - 10s - loss: 0.0055 - accuracy: 1.0000 - val_loss: 0.0055 - val_accuracy: 1.0000 - 10s/epoch - 245ms/step
+Epoch 35/50
+40/40 - 10s - loss: 0.0052 - accuracy: 1.0000 - val_loss: 0.0051 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 36/50
+40/40 - 10s - loss: 0.0050 - accuracy: 1.0000 - val_loss: 0.0048 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 37/50
+40/40 - 10s - loss: 0.0048 - accuracy: 1.0000 - val_loss: 0.0047 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 38/50
+40/40 - 10s - loss: 0.0046 - accuracy: 1.0000 - val_loss: 0.0044 - val_accuracy: 1.0000 - 10s/epoch - 245ms/step
+Epoch 39/50
+40/40 - 10s - loss: 0.0044 - accuracy: 1.0000 - val_loss: 0.0042 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 40/50
+40/40 - 10s - loss: 0.0042 - accuracy: 1.0000 - val_loss: 0.0040 - val_accuracy: 1.0000 - 10s/epoch - 245ms/step
+Epoch 41/50
+40/40 - 10s - loss: 0.0040 - accuracy: 1.0000 - val_loss: 0.0040 - val_accuracy: 1.0000 - 10s/epoch - 246ms/step
+Epoch 42/50
+40/40 - 10s - loss: 0.0038 - accuracy: 1.0000 - val_loss: 0.0037 - val_accuracy: 1.0000 - 10s/epoch - 247ms/step
+Epoch 43/50
+40/40 - 10s - loss: 0.0037 - accuracy: 1.0000 - val_loss: 0.0035 - val_accuracy: 1.0000 - 10s/epoch - 249ms/step
+Epoch 44/50
+40/40 - 10s - loss: 0.0035 - accuracy: 1.0000 - val_loss: 0.0034 - val_accuracy: 1.0000 - 10s/epoch - 244ms/step
+Epoch 45/50
+40/40 - 10s - loss: 0.0034 - accuracy: 1.0000 - val_loss: 0.0033 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 46/50
+40/40 - 10s - loss: 0.0032 - accuracy: 1.0000 - val_loss: 0.0031 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 47/50
+40/40 - 10s - loss: 0.0031 - accuracy: 1.0000 - val_loss: 0.0031 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 48/50
+40/40 - 10s - loss: 0.0030 - accuracy: 1.0000 - val_loss: 0.0030 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 49/50
+40/40 - 10s - loss: 0.0029 - accuracy: 1.0000 - val_loss: 0.0027 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+Epoch 50/50
+40/40 - 10s - loss: 0.0028 - accuracy: 1.0000 - val_loss: 0.0027 - val_accuracy: 1.0000 - 10s/epoch - 243ms/step
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predicciones</span>
+<span class="n">val_preds</span> <span class="o">=</span> <span class="n">segnet_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">val_images</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Reduce batch size to 1</span>
+<span class="n">val_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">val_preds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">val_masks_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">val_masks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10/10 [==============================] - 1s 86ms/step
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">metrics_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    Model  Dice Coefficient  IoU  Precision  Recall  AUC  Hausdorff Distance  \
+0  SegNet               0.0  1.0        1.0     1.0  NaN                 NaN   
+
+   Balanced Accuracy  
+0                1.0  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pspnet-piramides-de-pooling">
+<h3>PSPNet - Pirámides de Pooling<a class="headerlink" href="#pspnet-piramides-de-pooling" title="Link to this heading">#</a></h3>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="eda_parcial1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>EDA: exploración y procesamiento de imágenes</strong></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias-paquetes-y-gpu-necesarios">Librerías, paquetes y GPU necesarios</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verificacion-de-gpu-s">Verificación de GPU’s</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imagenes-y-mascaras-a-usar">Imágenes y máscaras a usar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementacion-de-arquitecturas-neuronales">Implementación de arquitecturas neuronales</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#segnet-basado-en-autoecoders">SegNet - Basado en autoecoders</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-de-segnet">Arquitectura de SegNet</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocesamiento-de-las-imagenes">Preprocesamiento de las imágenes</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#construccion-de-la-arquitectura">Construcción de la arquitectura</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pspnet-piramides-de-pooling">PSPNet - Pirámides de Pooling</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Henry Saenz
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
